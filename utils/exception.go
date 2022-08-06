@@ -19,20 +19,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package utils
 
-import (
-	"fmt"
+type Exception struct {
+	Code      int    `json:"code"`
+	Message   string `json:"message"`
+	Exception string `json:"exception"`
+}
 
-	"github.com/websublime/sublime-platform/config"
-)
+func NewException(exception string, status int, message string) *Exception {
+	e := &Exception{
+		Exception: exception,
+		Code:      status,
+		Message:   message,
+	}
 
-func main() {
-	env := config.Config()
+	return e
+}
 
-	app := bootstrap(&env)
-
-	installRouter(app)
-
-	app.Listen(fmt.Sprintf("%s:%s", env.WsHost, env.WsPort))
+func (e *Exception) Error() string {
+	return e.Message
 }

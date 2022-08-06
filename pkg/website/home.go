@@ -19,20 +19,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package website
 
-import (
-	"fmt"
+import "github.com/gofiber/fiber/v2"
 
-	"github.com/websublime/sublime-platform/config"
-)
+func HelloController(c *fiber.Ctx) error {
 
-func main() {
-	env := config.Config()
-
-	app := bootstrap(&env)
-
-	installRouter(app)
-
-	app.Listen(fmt.Sprintf("%s:%s", env.WsHost, env.WsPort))
+	return c.Render("index", fiber.Map{
+		"FiberTitle": "Hello From Fiber Html Engine",
+	})
 }

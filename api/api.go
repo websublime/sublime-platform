@@ -19,20 +19,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package api
 
 import (
-	"fmt"
-
-	"github.com/websublime/sublime-platform/config"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/etag"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 )
 
-func main() {
-	env := config.Config()
+type Api struct{}
 
-	app := bootstrap(&env)
+func NewApi() *Api {
+	return &Api{}
+}
 
-	installRouter(app)
-
-	app.Listen(fmt.Sprintf("%s:%s", env.WsHost, env.WsPort))
+func (api Api) InstallRouter(app *fiber.App) {
+	app.Group(
+		"/api/v1",
+		limiter.New(),
+		compress.New(),
+		cors.New(cors.Config{
+			AllowOrigins: "*",
+			AllowHeaders: "Origin, Content-Type, Accept",
+			AllowMethods: "GET, POST, HEAD, PUT, DELETE, PATCH, OPTIONS",
+		}),
+		etag.New(),
+		requestid.New(),
+	)
 }

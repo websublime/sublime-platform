@@ -19,20 +19,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package pkg
 
 import (
-	"fmt"
-
-	"github.com/websublime/sublime-platform/config"
+	"github.com/gofiber/fiber/v2"
 )
 
-func main() {
-	env := config.Config()
+type Console struct{}
 
-	app := bootstrap(&env)
+func NewConsole() *Console {
+	return &Console{}
+}
 
-	installRouter(app)
-
-	app.Listen(fmt.Sprintf("%s:%s", env.WsHost, env.WsPort))
+func (web Console) InstallRouter(app *fiber.App) {
+	app.Group(
+		"/console",
+		// TODO: auth middleware
+	)
 }

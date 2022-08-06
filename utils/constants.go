@@ -19,20 +19,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package utils
 
-import (
-	"fmt"
-
-	"github.com/websublime/sublime-platform/config"
+const (
+	ErrorServerUnknown       = "ESERVER_UNKNOWN"
+	ErrorInvalidBody         = "ERESPONSE_INVALIDBODY"
+	ErrorParseJson           = "EJSON_PARSE"
+	ErrorResourceForbidden   = "ERESOURCE_FORBIDDEN"
+	ErrorResourceInvalidBody = "ERESOURCE_BODYINVALID"
 )
-
-func main() {
-	env := config.Config()
-
-	app := bootstrap(&env)
-
-	installRouter(app)
-
-	app.Listen(fmt.Sprintf("%s:%s", env.WsHost, env.WsPort))
-}

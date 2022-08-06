@@ -19,20 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package pkg
 
-import (
-	"fmt"
+import "embed"
 
-	"github.com/websublime/sublime-platform/config"
-)
-
-func main() {
-	env := config.Config()
-
-	app := bootstrap(&env)
-
-	installRouter(app)
-
-	app.Listen(fmt.Sprintf("%s:%s", env.WsHost, env.WsPort))
-}
+//go:embed views/*
+var ViewFiles embed.FS

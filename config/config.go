@@ -19,20 +19,45 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package config
 
 import (
-	"fmt"
+	"os"
 
-	"github.com/websublime/sublime-platform/config"
+	"github.com/spf13/viper"
 )
 
-func main() {
-	env := config.Config()
+type Environment struct {
+	WsEnvironment string `env:"WS_ENV" mapstructure:"env"`
+	WsApiUrl      string `env:"WS_API_URL" mapstructure:"api_url"`
+	WsApiKey      string `env:"WS_API_KEY" mapstructure:"api_key"`
+	WsApiSecret   string `env:"WS_API_SECRET" mapstructure:"api_secret"`
+	WsHost        string `env:"WS_HOST" mapstructure:"host"`
+	WsPort        string `env:"WS_PORT" mapstructure:"port"`
+	IsProduction  bool   `env:"-" mapstructure:"is_production"`
+}
 
-	app := bootstrap(&env)
+func Config() Environment {
+	dir, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
 
-	installRouter(app)
+	env := Environment{}
 
-	app.Listen(fmt.Sprintf("%s:%s", env.WsHost, env.WsPort))
+	viper.AddConfigPath(dir)
+	viper.SetEnvPrefix("ws")
+	viper.SetConfigFile(".env")
+
+	viper.AutomaticEnv()
+
+	viper.Unmarshal(&env)
+
+	if env.WsEnvironment == "production" {
+		env.IsProduction = true
+	} else {
+		env.IsProduction = false
+	}
+
+	return env
 }
