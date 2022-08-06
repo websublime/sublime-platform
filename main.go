@@ -25,14 +25,14 @@ import (
 	"fmt"
 
 	"github.com/websublime/sublime-platform/config"
+	"github.com/websublime/sublime-platform/pkg"
 )
 
 func main() {
 	env := config.Config()
+	app := pkg.Bootstrap(&env)
 
-	app := bootstrap(&env)
-
-	installRouter(app)
+	pkg.InstallRouter(app)
 
 	app.Listen(fmt.Sprintf("%s:%s", env.WsHost, env.WsPort))
 }

@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package pkg
 
 import (
 	"net/http"
@@ -31,7 +31,6 @@ import (
 	"github.com/gofiber/template/html"
 	"github.com/websublime/sublime-platform/api"
 	"github.com/websublime/sublime-platform/config"
-	"github.com/websublime/sublime-platform/pkg"
 	"github.com/websublime/sublime-platform/utils"
 )
 
@@ -39,8 +38,8 @@ type Router interface {
 	InstallRouter(app *fiber.App)
 }
 
-func bootstrap(env *config.Environment) *fiber.App {
-	engine := html.NewFileSystem(http.FS(pkg.ViewFiles), ".html")
+func Bootstrap(env *config.Environment) *fiber.App {
+	engine := html.NewFileSystem(http.FS(ViewFiles), ".html")
 
 	app := fiber.New(fiber.Config{
 		ServerHeader: "ws-platform",
@@ -56,8 +55,8 @@ func bootstrap(env *config.Environment) *fiber.App {
 	return app
 }
 
-func installRouter(app *fiber.App) {
-	setup(app, api.NewApi(), pkg.NewWebsite(), pkg.NewConsole())
+func InstallRouter(app *fiber.App) {
+	setup(app, api.NewApi(), NewWebsite(), NewConsole())
 }
 
 func setup(app *fiber.App, router ...Router) {

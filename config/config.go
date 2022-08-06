@@ -28,30 +28,30 @@ import (
 )
 
 type Environment struct {
-	WsEnvironment string `env:"WS_ENV" mapstructure:"env"`
-	WsApiUrl      string `env:"WS_API_URL" mapstructure:"api_url"`
-	WsApiKey      string `env:"WS_API_KEY" mapstructure:"api_key"`
-	WsApiSecret   string `env:"WS_API_SECRET" mapstructure:"api_secret"`
-	WsHost        string `env:"WS_HOST" mapstructure:"host"`
-	WsPort        string `env:"WS_PORT" mapstructure:"port"`
-	IsProduction  bool   `env:"-" mapstructure:"is_production"`
+	WsEnvironment string `mapstructure:"WS_ENV"`
+	WsApiUrl      string `mapstructure:"WS_API_URL"`
+	WsApiKey      string `mapstructure:"WS_API_KEY"`
+	WsApiSecret   string `mapstructure:"WS_API_SECRET"`
+	WsHost        string `mapstructure:"WS_HOST"`
+	WsPort        string `mapstructure:"WS_PORT"`
+	IsProduction  bool
 }
 
 func Config() Environment {
-	dir, err := os.Getwd()
+	_, err := os.Getwd()
 	if err != nil {
 		panic(err)
 	}
 
 	env := Environment{}
 
-	viper.AddConfigPath(dir)
-	viper.SetEnvPrefix("ws")
 	viper.SetConfigFile(".env")
 
 	viper.AutomaticEnv()
 
-	viper.Unmarshal(&env)
+	if err := viper.ReadInConfig(); err == nil {
+		viper.Unmarshal(&env)
+	}
 
 	if env.WsEnvironment == "production" {
 		env.IsProduction = true
