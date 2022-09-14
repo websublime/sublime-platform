@@ -28,35 +28,35 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
-func createApplication(configuration Config) *fiber.App {
+func createApp(configuration ApplicationConfig) *fiber.App {
 	app := fiber.New(fiber.Config{
-		Prefork:                      configuration.Application.Prefork,
-		ServerHeader:                 configuration.Application.ServerHeader,
-		BodyLimit:                    configuration.Application.BodyLimit,
-		CaseSensitive:                configuration.Application.CaseSensitive,
+		Prefork:                      configuration.Prefork,
+		ServerHeader:                 configuration.ServerHeader,
+		BodyLimit:                    configuration.BodyLimit,
+		CaseSensitive:                configuration.CaseSensitive,
 		ColorScheme:                  fiber.DefaultColors,
-		CompressedFileSuffix:         configuration.Application.CompressedFileSuffix,
-		Concurrency:                  configuration.Application.Concurrency,
-		DisableDefaultContentType:    configuration.Application.DisableDefaultContentType,
-		DisableDefaultDate:           configuration.Application.DisableDefaultDate,
-		DisableHeaderNormalizing:     configuration.Application.DisableHeaderNormalizing,
-		DisableKeepalive:             configuration.Application.DisableKeepalive,
-		DisablePreParseMultipartForm: configuration.Application.DisablePreParseMultipartForm,
-		DisableStartupMessage:        configuration.Application.DisableStartupMessage,
-		ETag:                         configuration.Application.ETag,
-		EnableIPValidation:           configuration.Application.EnableIPValidation,
-		EnablePrintRoutes:            configuration.Application.EnablePrintRoutes,
-		EnableTrustedProxyCheck:      configuration.Application.EnableTrustedProxyCheck,
+		CompressedFileSuffix:         configuration.CompressedFileSuffix,
+		Concurrency:                  configuration.Concurrency,
+		DisableDefaultContentType:    configuration.DisableDefaultContentType,
+		DisableDefaultDate:           configuration.DisableDefaultDate,
+		DisableHeaderNormalizing:     configuration.DisableHeaderNormalizing,
+		DisableKeepalive:             configuration.DisableKeepalive,
+		DisablePreParseMultipartForm: configuration.DisablePreParseMultipartForm,
+		DisableStartupMessage:        configuration.DisableStartupMessage,
+		ETag:                         configuration.ETag,
+		EnableIPValidation:           configuration.EnableIPValidation,
+		EnablePrintRoutes:            configuration.EnablePrintRoutes,
+		EnableTrustedProxyCheck:      configuration.EnableTrustedProxyCheck,
 		ErrorHandler:                 fiber.DefaultErrorHandler,
-		GETOnly:                      configuration.Application.GETOnly,
-		Immutable:                    configuration.Application.Immutable,
-		ReadBufferSize:               configuration.Application.ReadBufferSize,
-		StreamRequestBody:            configuration.Application.StreamRequestBody,
-		StrictRouting:                configuration.Application.StrictRouting,
-		UnescapePath:                 configuration.Application.UnescapePath,
-		Views:                        configuration.Application.Views,
-		ViewsLayout:                  configuration.Application.ViewsLayout,
-		WriteBufferSize:              configuration.Application.WriteBufferSize,
+		GETOnly:                      configuration.GETOnly,
+		Immutable:                    configuration.Immutable,
+		ReadBufferSize:               configuration.ReadBufferSize,
+		StreamRequestBody:            configuration.StreamRequestBody,
+		StrictRouting:                configuration.StrictRouting,
+		UnescapePath:                 configuration.UnescapePath,
+		Views:                        configuration.Views,
+		ViewsLayout:                  configuration.ViewsLayout,
+		WriteBufferSize:              configuration.WriteBufferSize,
 	})
 
 	app.Use(recover.New())
@@ -68,8 +68,16 @@ func createApplication(configuration Config) *fiber.App {
 
 func createServer(app *fiber.App, configuration ServerConfig) {}
 
-func Bootstrap(configuration Config) {
-	app := createApplication(configuration)
+func CreateApplication(configuration Config, bootServer bool) func() {
+	app := createApp(configuration.Application)
 
-	createServer(app, configuration.Server)
+	if bootServer {
+		createServer(app, configuration.Server)
+	} else {
+		return func() {
+			createServer(app, configuration.Server)
+		}
+	}
+
+	return nil
 }
