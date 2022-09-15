@@ -5,4 +5,4 @@ type ServiceItem struct {
 	Provider interface{}
 }
 
-type Services []ServiceItem
+type Services []*ServiceItem

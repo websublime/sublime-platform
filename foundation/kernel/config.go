@@ -71,7 +71,8 @@ type ServerConfig struct {
 }
 
 type ModuleConfig struct {
-	ServerHeader string             `json:"serverHeader"`
+	Path         string             `json:"path"`
+	Name         string             `json:"name"`
 	ErrorHandler fiber.ErrorHandler `json:"-"`
 	Views        fiber.Views        `json:"-"`
 }

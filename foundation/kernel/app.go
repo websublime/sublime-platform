@@ -66,18 +66,14 @@ func createApp(configuration ApplicationConfig) *fiber.App {
 	return app
 }
 
-func createServer(app *fiber.App, configuration ServerConfig) {}
+func CreateApplication(configuration Config) *fiber.App {
+	configuration.Application.Prefork = configuration.Environment.IsProduction
 
-func CreateApplication(configuration Config, bootServer bool) func() {
 	app := createApp(configuration.Application)
 
-	if bootServer {
-		createServer(app, configuration.Server)
-	} else {
-		return func() {
-			createServer(app, configuration.Server)
-		}
+	for _, modules := range GetModules() {
+		app.Mount(modules.Path, modules.Module)
 	}
 
-	return nil
+	return app
 }
