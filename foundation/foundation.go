@@ -17,16 +17,16 @@ func createServer(app *fiber.App, configuration kernel.ServerConfig) {
 	}
 }
 
-func Start(config kernel.Config, bootServer bool) func() {
-	app := kernel.CreateApplication(config)
+func Start(config *kernel.Config, bootServer bool) (*kernel.Foundation, func(configuration kernel.ServerConfig)) {
+	foundation, app := kernel.NewApplication(config)
 
 	if bootServer {
 		createServer(app, config.Server)
 	} else {
-		return func() {
-			createServer(app, config.Server)
+		return foundation, func(configuration kernel.ServerConfig) {
+			createServer(app, configuration)
 		}
 	}
 
-	return nil
+	return foundation, nil
 }

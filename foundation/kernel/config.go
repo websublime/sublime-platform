@@ -21,7 +21,12 @@ THE SOFTWARE.
 */
 package kernel
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"os"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/spf13/viper"
+)
 
 type EnvironmentConfig struct {
 	WsEnvironment string `mapstructure:"WS_ENV"`
@@ -30,6 +35,7 @@ type EnvironmentConfig struct {
 	WsApiSecret   string `mapstructure:"WS_API_SECRET"`
 	WsHost        string `mapstructure:"WS_HOST"`
 	WsPort        string `mapstructure:"WS_PORT"`
+	WsUrl         string `mapstructure:"WS_URL"`
 	IsProduction  bool
 }
 
@@ -70,15 +76,32 @@ type ServerConfig struct {
 	TlsKeyFile  string `json:"tlsKeyFile"`
 }
 
-type ModuleConfig struct {
-	Path         string             `json:"path"`
-	Name         string             `json:"name"`
-	ErrorHandler fiber.ErrorHandler `json:"-"`
-	Views        fiber.Views        `json:"-"`
-}
-
 type Config struct {
-	Environment EnvironmentConfig `json:"environment"`
 	Application ApplicationConfig `json:"application"`
 	Server      ServerConfig      `json:"server"`
+}
+
+func GetEnvironmentConfig() EnvironmentConfig {
+	_, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+
+	env := EnvironmentConfig{}
+
+	viper.SetConfigFile(".env")
+
+	viper.AutomaticEnv()
+
+	if err := viper.ReadInConfig(); err == nil {
+		viper.Unmarshal(&env)
+	}
+
+	if env.WsEnvironment == "production" {
+		env.IsProduction = true
+	} else {
+		env.IsProduction = false
+	}
+
+	return env
 }

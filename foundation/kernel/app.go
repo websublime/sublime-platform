@@ -26,7 +26,15 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/pprof"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/websublime/foundation/contracts"
 )
+
+type Foundation struct {
+	Modules     contracts.Modules
+	Services    contracts.Services
+	Config      *Config
+	Environment EnvironmentConfig
+}
 
 func createApp(configuration ApplicationConfig) *fiber.App {
 	app := fiber.New(fiber.Config{
@@ -66,14 +74,33 @@ func createApp(configuration ApplicationConfig) *fiber.App {
 	return app
 }
 
-func CreateApplication(configuration Config) *fiber.App {
-	configuration.Application.Prefork = configuration.Environment.IsProduction
+func NewApplication(configuration *Config) (*Foundation, *fiber.App) {
+	env := GetEnvironmentConfig()
+
+	configuration.Application.Prefork = env.IsProduction
+
+	if configuration.Server.Host == "" {
+		configuration.Server.Host = env.WsHost
+	}
+
+	if configuration.Server.Port == "" {
+		configuration.Server.Port = env.WsPort
+	}
+
+	foundation := &Foundation{
+		Config:      configuration,
+		Environment: env,
+		Modules:     GetModules(),
+		Services:    GetServices(),
+	}
 
 	app := createApp(configuration.Application)
 
-	for _, modules := range GetModules() {
-		app.Mount(modules.Path, modules.Module)
+	for _, moduleItem := range foundation.Modules {
+		if moduleItem.Config.Active {
+			app.Mount(moduleItem.Path, moduleItem.ModuleApp)
+		}
 	}
 
-	return app
+	return foundation, app
 }

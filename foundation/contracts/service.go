@@ -6,3 +6,7 @@ type ServiceItem struct {
 }
 
 type Services []*ServiceItem
+
+type Service struct {
+	Item *ServiceItem
+}
