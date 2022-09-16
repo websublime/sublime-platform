@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/websublime/foundation/contracts"
 	"github.com/websublime/foundation/kernel"
 )
 
@@ -22,11 +23,15 @@ func Start(config *kernel.Config, bootServer bool) (*kernel.Foundation, func(con
 
 	if bootServer {
 		createServer(app, config.Server)
-	} else {
-		return foundation, func(configuration kernel.ServerConfig) {
-			createServer(app, configuration)
-		}
 	}
 
-	return foundation, nil
+	return foundation, func(configuration kernel.ServerConfig) {
+		createServer(app, configuration)
+	}
+}
+
+func Setup(modules ...contracts.ModuleInterface) {
+	for _, module := range modules {
+		module.RegisterModule()
+	}
 }

@@ -10,6 +10,7 @@ func CreateModule(config contracts.ModuleConfig) contracts.Module {
 		ServerHeader: config.Name,
 		ErrorHandler: config.ErrorHandler,
 		Views:        config.Views,
+		ViewsLayout:  config.ViewsLayout,
 	})
 
 	return contracts.Module{

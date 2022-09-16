@@ -6,9 +6,9 @@ import (
 )
 
 type HomeController struct {
-	AppContext *kernel.Foundation
+	Foundation *kernel.Foundation
 }
 
 func HelloController(c *fiber.Ctx) error {
-	return c.SendString("Hello World")
+	return c.Render("home", fiber.Map{})
 }

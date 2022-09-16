@@ -2,8 +2,11 @@ package website
 
 import (
 	"fmt"
+	"path"
+	"runtime"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html"
 	"github.com/websublime/foundation/contracts"
 	"github.com/websublime/foundation/kernel"
 	"github.com/websublime/platform/modules/website/http"
@@ -16,10 +19,14 @@ type WebsiteModule struct {
 }
 
 func NewModuleWebsite() *WebsiteModule {
+	_, filename, _, _ := runtime.Caller(0)
+
 	mod := kernel.CreateModule(contracts.ModuleConfig{
-		Path:   "/",
-		Name:   "website",
-		Active: true,
+		Path:        "/",
+		Name:        "website",
+		Active:      true,
+		Views:       html.New(path.Join(path.Dir(filename), "./views"), ".html"),
+		ViewsLayout: path.Join(path.Dir(filename), "../../views/layouts/main"),
 	})
 
 	kernel.AddModule(mod.Item)

@@ -10,6 +10,7 @@ type ModuleConfig struct {
 	ErrorHandler fiber.ErrorHandler `json:"-"`
 	Views        fiber.Views        `json:"-"`
 	Active       bool               `json:"active"`
+	ViewsLayout  string
 }
 
 type ModuleItem struct {

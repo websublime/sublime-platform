@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/websublime/foundation"
 	"github.com/websublime/foundation/kernel"
-	"github.com/websublime/platform/pkg"
+	"github.com/websublime/platform/modules/website"
 )
 
 func main() {
@@ -13,7 +13,7 @@ func main() {
 		},
 	}
 
-	pkg.Setup(config)
+	foundation.Setup(website.NewModuleWebsite())
 
 	_, bootserver := foundation.Start(&config, false)
 
