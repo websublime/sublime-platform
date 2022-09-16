@@ -2,8 +2,7 @@ package website
 
 import (
 	"fmt"
-	"path"
-	"runtime"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html"
@@ -19,14 +18,14 @@ type WebsiteModule struct {
 }
 
 func NewModuleWebsite() *WebsiteModule {
-	_, filename, _, _ := runtime.Caller(0)
+	dir, _ := os.Getwd()
 
 	mod := kernel.CreateModule(contracts.ModuleConfig{
 		Path:        "/",
 		Name:        "website",
 		Active:      true,
-		Views:       html.New(path.Join(path.Dir(filename), "./views"), ".html"),
-		ViewsLayout: path.Join(path.Dir(filename), "../../views/layouts/main"),
+		Views:       html.New(dir, ".html"),
+		ViewsLayout: "views/layouts/main",
 	})
 
 	kernel.AddModule(mod.Item)

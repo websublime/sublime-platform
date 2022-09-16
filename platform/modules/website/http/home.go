@@ -10,5 +10,5 @@ type HomeController struct {
 }
 
 func HelloController(c *fiber.Ctx) error {
-	return c.Render("home", fiber.Map{})
+	return c.Render("modules/website/views/home", fiber.Map{})
 }
