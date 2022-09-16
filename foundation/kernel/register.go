@@ -11,7 +11,7 @@ func GetModules() contracts.Modules {
 	return modules
 }
 
-func AddModule(module *contracts.ModuleItem) {
+func AddModule(module *contracts.Module) {
 	modules = append(modules, module)
 }
 

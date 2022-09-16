@@ -19,8 +19,10 @@ type ModuleItem struct {
 	Config    ModuleConfig
 }
 
-type Modules []*ModuleItem
-
 type Module struct {
-	Item *ModuleItem
+	Item        *ModuleItem
+	Group       fiber.Router
+	Controllers Controllers
 }
+
+type Modules []*Module

@@ -28,7 +28,7 @@ func NewModuleWebsite() *WebsiteModule {
 		ViewsLayout: "views/layouts/main",
 	})
 
-	kernel.AddModule(mod.Item)
+	kernel.AddModule(&mod)
 
 	return &WebsiteModule{
 		Module: &mod,

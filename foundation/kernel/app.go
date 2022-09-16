@@ -96,9 +96,9 @@ func NewApplication(configuration *Config) (*Foundation, *fiber.App) {
 
 	app := createApp(configuration.Application)
 
-	for _, moduleItem := range foundation.Modules {
-		if moduleItem.Config.Active {
-			app.Mount(moduleItem.Path, moduleItem.ModuleApp)
+	for _, module := range foundation.Modules {
+		if module.Item.Config.Active {
+			app.Mount(module.Item.Path, module.Item.ModuleApp)
 		}
 	}
 
