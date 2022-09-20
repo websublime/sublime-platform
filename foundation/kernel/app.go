@@ -29,14 +29,7 @@ import (
 	"github.com/websublime/foundation/contracts"
 )
 
-type Foundation struct {
-	Modules     contracts.Modules
-	Services    contracts.Services
-	Config      *Config
-	Environment EnvironmentConfig
-}
-
-func createApp(configuration ApplicationConfig) *fiber.App {
+func createApp(configuration contracts.ApplicationConfig) *fiber.App {
 	app := fiber.New(fiber.Config{
 		Prefork:                      configuration.Prefork,
 		ServerHeader:                 configuration.ServerHeader,
@@ -74,20 +67,20 @@ func createApp(configuration ApplicationConfig) *fiber.App {
 	return app
 }
 
-func NewApplication(configuration *Config) (*Foundation, *fiber.App) {
+func NewApplication(configuration *contracts.Config) (*contracts.Context, *fiber.App) {
 	env := GetEnvironmentConfig()
 
 	configuration.Application.Prefork = env.IsProduction
 
 	if configuration.Server.Host == "" {
-		configuration.Server.Host = env.WsHost
+		configuration.Server.Host = env.Host
 	}
 
 	if configuration.Server.Port == "" {
-		configuration.Server.Port = env.WsPort
+		configuration.Server.Port = env.Port
 	}
 
-	foundation := &Foundation{
+	foundation := &contracts.Context{
 		Config:      configuration,
 		Environment: env,
 		Modules:     GetModules(),
@@ -98,7 +91,7 @@ func NewApplication(configuration *Config) (*Foundation, *fiber.App) {
 
 	for _, module := range foundation.Modules {
 		if module.Item.Config.Active {
-			app.Mount(module.Item.Path, module.Item.ModuleApp)
+			app.Mount(module.Item.Path, module.Item.Instance)
 		}
 	}
 

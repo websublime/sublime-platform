@@ -14,15 +14,14 @@ type ModuleConfig struct {
 }
 
 type ModuleItem struct {
-	Path      string
-	ModuleApp *fiber.App
-	Config    ModuleConfig
+	Path     string
+	Instance *fiber.App
+	Config   ModuleConfig
 }
 
 type Module struct {
-	Item        *ModuleItem
-	Group       fiber.Router
-	Controllers Controllers
+	Item *ModuleItem
+	Base *Base
 }
 
 type Modules []*Module

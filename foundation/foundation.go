@@ -8,7 +8,7 @@ import (
 	"github.com/websublime/foundation/kernel"
 )
 
-func createServer(app *fiber.App, configuration kernel.ServerConfig) {
+func createServer(app *fiber.App, configuration contracts.ServerConfig) {
 	host := fmt.Sprintf("%s:%s", configuration.Host, configuration.Port)
 
 	if configuration.Tls {
@@ -18,20 +18,22 @@ func createServer(app *fiber.App, configuration kernel.ServerConfig) {
 	}
 }
 
-func Start(config *kernel.Config, bootServer bool) (*kernel.Foundation, func(configuration kernel.ServerConfig)) {
+func bootModules(ctx *contracts.Context, modules contracts.Modules) {
+	for _, module := range modules {
+		module.Base.DefineContext(ctx)
+	}
+}
+
+func Start(config *contracts.Config, bootServer bool) (*contracts.Context, func(configuration contracts.ServerConfig)) {
 	foundation, app := kernel.NewApplication(config)
+
+	bootModules(foundation, config.Modules)
 
 	if bootServer {
 		createServer(app, config.Server)
 	}
 
-	return foundation, func(configuration kernel.ServerConfig) {
+	return foundation, func(configuration contracts.ServerConfig) {
 		createServer(app, configuration)
-	}
-}
-
-func Setup(modules ...contracts.ModuleInterface) {
-	for _, module := range modules {
-		module.RegisterModule()
 	}
 }

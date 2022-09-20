@@ -2,18 +2,19 @@ package main
 
 import (
 	"github.com/websublime/foundation"
-	"github.com/websublime/foundation/kernel"
+	"github.com/websublime/foundation/contracts"
 	"github.com/websublime/platform/modules/website"
 )
 
 func main() {
-	config := kernel.Config{
-		Application: kernel.ApplicationConfig{
+	config := contracts.Config{
+		Application: contracts.ApplicationConfig{
 			ServerHeader: "ws-platform",
 		},
+		Modules: contracts.Modules{
+			website.RegisterWebsiteModule(),
+		},
 	}
-
-	foundation.Setup(website.NewModuleWebsite())
 
 	_, bootserver := foundation.Start(&config, false)
 
