@@ -12,7 +12,20 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^1.0.1",
     "@websublime/ws-globals": "0.0.0-SNAPSHOT-20220921231235",
     "astro": "^1.2.8"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.38.0",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-sort-destructure-keys": "^1.4.0",
+    "eslint-plugin-unicorn": "^42.0.0",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.3"
   }
 }
