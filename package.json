@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "debug": "NODE_ENV=local node --inspect $(npm bin)/astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",

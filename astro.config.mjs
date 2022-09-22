@@ -7,11 +7,13 @@ export default defineConfig({
       name: "@sublime/globals",
       hooks: {
         'astro:config:setup': ({ injectScript }) => {
+          const { NODE_ENV = 'production', API_URL = 'http://localhost' } = process.env;
+
           injectScript(
             'page', 
             `
             import { bootGlobals } from "@websublime/ws-globals";
-            bootGlobals({apiUrl: "localhost", env: "local"});
+            bootGlobals({apiUrl: ${API_URL}, env: ${NODE_ENV}});
             `
           );
         }
