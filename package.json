@@ -1,0 +1,17 @@
+{
+  "name": "@websublime/platform",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@websublime/ws-globals": "0.0.0-SNAPSHOT-20220921231235",
+    "astro": "^1.2.8"
+  }
+}
