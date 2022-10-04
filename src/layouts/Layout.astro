@@ -14,6 +14,14 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<script type="importmap">
+		{
+		  "imports": {
+		    "@websublime/ws-essential": "https://yobadkjsgewuwlixyekh.supabase.co/storage/v1/object/public/websublime/@websublime/ws-essential/0.3.0-SNAPSHOT/ws-essential.es.js",
+		    "@websublime/ws-globals": "https://yobadkjsgewuwlixyekh.supabase.co/storage/v1/object/public/websublime/@websublime/ws-globals/0.2.0-SNAPSHOT/ws-globals.es.js"
+		  }
+		}
+		</script>
 	</head>
 	<body>
 		<slot />

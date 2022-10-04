@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@astrojs/node": "^1.0.1",
-    "@websublime/ws-globals": "0.0.0-SNAPSHOT-20220921231235",
+    "@websublime/ws-globals": "0.0.0-SNAPSHOT-20221004145719",
     "astro": "^1.2.8"
   },
   "devDependencies": {

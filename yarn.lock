@@ -742,10 +742,10 @@
     vscode-nls "^5.0.0"
     vscode-uri "^2.1.2"
 
-"@websublime/ws-globals@0.0.0-SNAPSHOT-20220921231235":
-  version "0.0.0-SNAPSHOT-20220921231235"
-  resolved "https://npm.pkg.github.com/download/@websublime/ws-globals/0.0.0-SNAPSHOT-20220921231235/a2669128c56805ffe58369051fb583dda4b87859#a2669128c56805ffe58369051fb583dda4b87859"
-  integrity sha512-O1FSZPMv3TY39GWscwAwrSCCPdQ+Rj9ugeAaAIKnZ19pO7ZQkFQPK7SpH8RHWkl2IgI9G81W3DtHUQNA92Qfvw==
+"@websublime/ws-globals@0.0.0-SNAPSHOT-20221004145719":
+  version "0.0.0-SNAPSHOT-20221004145719"
+  resolved "https://npm.pkg.github.com/download/@websublime/ws-globals/0.0.0-SNAPSHOT-20221004145719/fd5fc0f527442aaf6c95f8a69f8361a09de87f7e#fd5fc0f527442aaf6c95f8a69f8361a09de87f7e"
+  integrity sha512-kf5IefD5cT+hd88eAARc05jAFrBQqLugo1Djo/mx/lYmHlL1Evw3jlXg4beNgIDJCdPK1IEcDC+mwA3Lkb0n4Q==
   dependencies:
     lit "^2.2.1"
 
